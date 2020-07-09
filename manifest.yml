@@ -1,0 +1,12 @@
+modules:
+  macro:
+    - key: approve-pages
+      function: main
+      title: Approve Pages
+      description: Approval Process for Confluence Pages
+  function:
+    - key: main
+      handler: index.run
+app:
+  id: 'ari:cloud:ecosystem::app/aaa2900b-91b6-4703-bfde-58fa1fe64a8e'
+  name: approve-pages
