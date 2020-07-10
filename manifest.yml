@@ -10,3 +10,8 @@ modules:
 app:
   id: 'ari:cloud:ecosystem::app/aaa2900b-91b6-4703-bfde-58fa1fe64a8e'
   name: approve-pages
+permissions:
+  scopes:
+    - 'read:jira-work'
+    - 'read:confluence-content.summary'
+    - 'write:jira-work'
