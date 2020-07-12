@@ -42,6 +42,10 @@ const equalRender = (render1:number, render2:number) => {
   return render1 === render2;
 };
 
+const hasIssues = (contentIssues:any) => {
+  return contentIssues && contentIssues.issues.length > 0;
+};
+
 const fetchProjects = async () => {
   const response = await api.asApp().requestJira("/rest/api/3/project");
   return response.json();
@@ -114,7 +118,7 @@ const App = () => {
         </SectionMessage>
         <ButtonSet>
           <Button text="Send for review" onClick={async () => { await createIssue() }} disabled={!equalState(state, STATE.DRAFT)} /> 
-          <Button text="Show reviews" onClick={() => { setRender(RENDER.APPROVALS) }} disabled={contentIssues.issues.length < 1} />
+          <Button text="Show reviews" onClick={() => { setRender(RENDER.APPROVALS) }} disabled={!hasIssues(contentIssues)} />
         </ButtonSet>
       </Fragment>
     );
@@ -167,7 +171,7 @@ const App = () => {
   }
 
   function getContentState() {
-    if (!contentIssues) return STATE.DRAFT;
+    if (!hasIssues(contentIssues)) return STATE.DRAFT;
     const issue = contentIssues.issues.find(isContentIssue);
     
     if (issue) {
