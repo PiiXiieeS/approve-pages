@@ -22,7 +22,7 @@ import api from '@forge/api';
 export type Appearance = 'info' | 'warning' | 'confirmation' | 'error';
 
 const RENDER = {
-  NOCONFIG: 0,
+  ERROR: 0,
   STATE: 1,
   APPROVALS: 2
 }
@@ -87,25 +87,26 @@ const Config = () => {
 
 const App = () => {
   const config = useConfig();
+  const [ render, setRender ] = useState(config ? RENDER.STATE : RENDER.ERROR);
+  const [ errorMessage, setErrorMessage ] = useState("This app requires configuration before use.");
   const { contentId } = useProductContext();
   const [ content ] = useState(fetchContent);
   const [ contentVersion ] = useState(content ? content.version.number : 1);
   const [ contentIssues, setContentIssues ] = useState(fetchContentIssues);
   const [ state, setState ] = useState(getContentState);
-  const [ render, setRender] = useState(config ? RENDER.STATE : RENDER.NOCONFIG);
 
   return (
     <Fragment>
-      { equalRender(render, RENDER.NOCONFIG) && renderNoConfig() }
+      { equalRender(render, RENDER.ERROR) && renderError() }
       { equalRender(render, RENDER.STATE) && renderState() }
       { equalRender(render, RENDER.APPROVALS) && renderApprovals() }
     </Fragment>
   );
 
-  function renderNoConfig() {
+  function renderError() {
     return (
       <SectionMessage title="Approve Pages" appearance="error">
-        <Text>This app requires configuration before use</Text>
+        <Text>{errorMessage || 'Something went wrong. Is the app configured correctly?'}</Text>
       </SectionMessage>
     );
   }
@@ -209,6 +210,8 @@ const App = () => {
     const responseBody = await response.json();
     if (!response.ok) {
       console.error('fetchContent()', responseBody);
+      setErrorMessage(null);
+      setRender(RENDER.ERROR);
       return null;
     }
     return responseBody;
@@ -229,6 +232,8 @@ const App = () => {
     const responseBody = await response.json();
     if (!response.ok) {
       console.error('fetchContentIssues()', responseBody);
+      setErrorMessage('Something went wrong while fetching issues. Do you have access to the configured project?');
+      setRender(RENDER.ERROR);
       return null;
     }
     return responseBody;
@@ -317,6 +322,8 @@ const App = () => {
 
     if (!response.ok) {
       console.error('createIssue()', responseBody);
+      setErrorMessage('Something went wrong while creating new issue. Do you have access to the configured project?');
+      setRender(RENDER.ERROR);
     } else {
       setState(STATE.REVIEW);
       // reload content issues to get the one we just created
