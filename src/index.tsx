@@ -114,7 +114,7 @@ const App = () => {
         </SectionMessage>
         <ButtonSet>
           <Button text="Send for review" onClick={async () => { await createIssue() }} disabled={!equalState(state, STATE.DRAFT)} /> 
-          <Button text="Show reviews" onClick={() => { setRender(RENDER.APPROVALS) }} />
+          <Button text="Show reviews" onClick={() => { setRender(RENDER.APPROVALS) }} disabled={contentIssues.issues.length < 1} />
         </ButtonSet>
       </Fragment>
     );
