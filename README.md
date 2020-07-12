@@ -1,8 +1,23 @@
-# Approve Pages (Typescript)
+# Approve Pages (Confluence)
 
-This project contains a Forge app written in Typescript that adds Confluence macro for Approving Pages.
+## Inspiration
 
-See [developer.atlassian.com/platform/forge/](https://developer.atlassian.com/platform/forge) for documentation and tutorials explaining Forge.
+It can be challenging to track different versions and approvals of company documents. For many businesses, this is required by regulatory and it's often done via email. This however, has some major disadvantages:
+
+- No history of document changes is available
+- Approval flow e.g. Draft -> Review -> Approved/Rejected cannot be easily enforced
+- Statistical analysis of approvals is impractical or impossible (e.g. answering: "How long did it take to go from draft to approved 95% of the time?" is not a simple task)
+
+By using Approve Pages for Confluence all of the above are not only possible but also simple to implement with just existing Confluence and Jira subscription.
+
+## What it does
+
+Approve Pages let's editors submit version of a Confluence page for review by approvers. Jira issue is created for each submitted version for review. Depending on Jira workflow, approvers may approve changes, reject them or anything in between. Different business may define Jira worklow that suits their own approval process.
+
+## How I built it
+
+Approve Pages is build on the new [Atlassian Forge](https://www.atlassian.com/forge) - trusted, scalable platform with Atlassian-hosted compute and storage, eliminating the need to manage infrastructure or security. Your Confluence pages or any information about them will never leave your existing Confluence and Jira subscriptions.
+
 
 ## Requirements
 
